@@ -43,6 +43,7 @@
           </permissionSets>
           <signing>
             <keystore>${basedir}/../mycert.p12</keystore>
+            <storetype>PKCS12</storetype>
             <storepass>test</storepass>
           </signing>
         </configuration>
