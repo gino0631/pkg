@@ -98,7 +98,7 @@ target
 │   │               └── Info.plist
 ```
 
-The following parameters are required, but their default values will be taken from your POM, so it is not necessary to specify them:
+The following parameters are required, but their default values will be constructed using your POM, so it is necessary to specify them only to change the defaults:
 ```xml
 <outputFile>${project.artifactId}-${project.version}.pkg</outputFile>
 <packageIdentifier>${project.groupId}.${project.artifactId}.pkg</packageIdentifier>
