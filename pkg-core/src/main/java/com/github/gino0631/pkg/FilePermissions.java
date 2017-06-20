@@ -1,4 +1,4 @@
-package com.github.gino0631.pkg.core;
+package com.github.gino0631.pkg;
 
 import java.text.MessageFormat;
 

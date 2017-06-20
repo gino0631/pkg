@@ -1,15 +1,15 @@
-package com.github.gino0631.pkg.core;
+package com.github.gino0631.pkg;
 
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListParser;
+import com.github.gino0631.common.io.IoStreams;
 import com.github.gino0631.pkg.jaxb.ObjectFactory;
 import com.github.gino0631.pkg.jaxb.distribution.*;
 import com.github.gino0631.pkg.jaxb.packageinfo.*;
+import com.github.gino0631.pkg.jbomutils.MkBom;
 import com.github.gino0631.xar.EncodingAlgorithm;
 import com.github.gino0631.xar.XarArchive;
 import com.github.gino0631.xar.XarBuilder;
-import com.github.gino0631.xar.impl.IoUtils;
-import com.github.gino0631.pkg.jbomutils.MkBom;
 import org.apache.commons.compress.archivers.cpio.CpioArchiveEntry;
 import org.apache.commons.compress.archivers.cpio.CpioArchiveOutputStream;
 import org.apache.commons.compress.archivers.cpio.CpioConstants;
@@ -40,6 +40,8 @@ public final class ProductBuilder {
     private String title;
     private Background background;
     private License license;
+    private Readme readme;
+    private Conclusion conclusion;
     private Map<String, Map<String, Path>> resources;
     private PermissionSupplier permissionSupplier;
     private PrivateKey signingPrivateKey;
@@ -73,28 +75,22 @@ public final class ProductBuilder {
     }
 
     public void setBackground(String name, String alignment, String scaling, Map<String, Path> files) {
-        if ((files == null) || files.isEmpty()) {
-            throw new IllegalArgumentException("Background files must be specified");
-        }
-
-        if (background != null) {
-            throw new IllegalStateException("Background is already set");
-        }
-
-        background = new Background(Objects.requireNonNull(name), alignment, scaling);
+        background = checkCanSet(background, new Background(Objects.requireNonNull(name), alignment, scaling), files);
         addResources(name, files);
     }
 
     public void setLicense(String name, Map<String, Path> files) {
-        if ((files == null) || files.isEmpty()) {
-            throw new IllegalArgumentException("License files must be specified");
-        }
+        license = checkCanSet(license, new License(Objects.requireNonNull(name)), files);
+        addResources(name, files);
+    }
 
-        if (license != null) {
-            throw new IllegalStateException("License is already set");
-        }
+    public void setReadme(String name, Map<String, Path> files) {
+        readme = checkCanSet(readme, new Readme(Objects.requireNonNull(name)), files);
+        addResources(name, files);
+    }
 
-        license = new License(Objects.requireNonNull(name));
+    public void setConclusion(String name, Map<String, Path> files) {
+        conclusion = checkCanSet(conclusion, new Conclusion(Objects.requireNonNull(name)), files);
         addResources(name, files);
     }
 
@@ -191,7 +187,7 @@ public final class ProductBuilder {
                         if (!isDirectory) {
                             Checksum cksum = new Cksum();
                             try (InputStream in = new CheckedInputStream(Files.newInputStream(path), cksum)) {
-                                IoUtils.copy(in, cpio);
+                                IoStreams.copy(in, cpio);
                             }
                             bomListPS.print('\t');
                             bomListPS.print(size);
@@ -231,6 +227,8 @@ public final class ProductBuilder {
 
             installerScript.setBackground(background);
             installerScript.setLicense(license);
+            installerScript.setReadme(readme);
+            installerScript.setConclusion(conclusion);
 
             ObjectFactory.marshal(installerScript, os);
         }
@@ -315,6 +313,18 @@ public final class ProductBuilder {
             }
             resources.computeIfAbsent(lang, k -> new TreeMap<>()).put(name, e.getValue());
         }
+    }
+
+    private static <T> T checkCanSet(T obj, T newObj, Map<String, Path> files) {
+        if ((files == null) || files.isEmpty()) {
+            throw new IllegalArgumentException(MessageFormat.format("{0} files must be specified", newObj.getClass().getSimpleName()));
+        }
+
+        if (obj != null) {
+            throw new IllegalStateException(MessageFormat.format("{0} is already set", newObj.getClass().getSimpleName()));
+        }
+
+        return newObj;
     }
 
     private static void delete(Path directory) throws IOException {

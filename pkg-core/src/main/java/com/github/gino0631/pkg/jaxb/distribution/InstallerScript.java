@@ -21,6 +21,12 @@ public class InstallerScript {
     @XmlElement(name = "license")
     protected License license;
 
+    @XmlElement(name = "readme")
+    protected Readme readme;
+
+    @XmlElement(name = "conclusion")
+    protected Conclusion conclusion;
+
     @XmlElement(name = "choices-outline", required = true)
     protected ChoicesOutline choicesOutline;
 
@@ -79,6 +85,22 @@ public class InstallerScript {
 
     public void setLicense(License license) {
         this.license = license;
+    }
+
+    public Readme getReadme() {
+        return readme;
+    }
+
+    public void setReadme(Readme readme) {
+        this.readme = readme;
+    }
+
+    public Conclusion getConclusion() {
+        return conclusion;
+    }
+
+    public void setConclusion(Conclusion conclusion) {
+        this.conclusion = conclusion;
     }
 
     public ChoicesOutline getChoicesOutline() {

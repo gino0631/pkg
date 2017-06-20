@@ -32,6 +32,8 @@
                 </resource>
               </resources>
             </license>
+            <readme>${basedir}/../readme.rtf</readme>
+            <conclusion>${basedir}/../conclusion.rtf</conclusion>
           </distribution>
           <permissionSets>
             <permissionSet>
