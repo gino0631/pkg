@@ -1,7 +1,7 @@
 package com.github.gino0631.pkg.maven;
 
-import com.github.gino0631.pkg.core.FilePermissions;
-import com.github.gino0631.pkg.core.ProductBuilder;
+import com.github.gino0631.pkg.FilePermissions;
+import com.github.gino0631.pkg.ProductBuilder;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -100,18 +100,19 @@ public class ProductMojo extends AbstractMojo {
                 });
             }
 
-            if (distribution != null) {
-                distribution.configure(pkgBuilder);
-            }
-
-            if (signing != null) {
-                signing.configure(pkgBuilder);
-            }
+            configure(pkgBuilder, distribution);
+            configure(pkgBuilder, signing);
 
             pkgBuilder.build(target.resolve("pkg-flat"));
 
         } catch (IOException e) {
             throw new MojoExecutionException("Error building package", e);
+        }
+    }
+
+    static void configure(ProductBuilder pkgBuilder, Configuring configuring) throws MojoExecutionException {
+        if (configuring != null) {
+            configuring.configure(pkgBuilder);
         }
     }
 

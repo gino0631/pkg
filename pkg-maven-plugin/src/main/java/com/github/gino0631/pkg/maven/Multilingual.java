@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.*;
 
-public class Multilingual {
+public abstract class Multilingual {
     @Parameter
     private List<Resource> resources;
 

@@ -1,23 +1,27 @@
 package com.github.gino0631.pkg.maven;
 
-import com.github.gino0631.pkg.core.ProductBuilder;
+import com.github.gino0631.pkg.ProductBuilder;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 
-public class Distribution {
+public class Distribution implements Configuring {
     @Parameter
     private Background background;
 
     @Parameter
     private License license;
 
-    void configure(ProductBuilder pkgBuilder) throws MojoExecutionException {
-        if (background != null) {
-            background.configure(pkgBuilder);
-        }
+    @Parameter
+    private Readme readme;
 
-        if (license != null) {
-            license.configure(pkgBuilder);
-        }
+    @Parameter
+    private Conclusion conclusion;
+
+    @Override
+    public void configure(ProductBuilder pkgBuilder) throws MojoExecutionException {
+        ProductMojo.configure(pkgBuilder, background);
+        ProductMojo.configure(pkgBuilder, license);
+        ProductMojo.configure(pkgBuilder, readme);
+        ProductMojo.configure(pkgBuilder, conclusion);
     }
 }

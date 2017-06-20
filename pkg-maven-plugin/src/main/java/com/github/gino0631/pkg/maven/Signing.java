@@ -1,6 +1,6 @@
 package com.github.gino0631.pkg.maven;
 
-import com.github.gino0631.pkg.core.ProductBuilder;
+import com.github.gino0631.pkg.ProductBuilder;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * <p>
  * Most parameters are treated as in sun.security.tools.JarSigner.
  */
-public class Signing {
+public class Signing implements Configuring {
     /**
      * Keystore path or URL.
      * The default is .keystore file in the user's home directory, as determined by the "user.home" system property.
@@ -88,7 +88,8 @@ public class Signing {
     @Parameter(defaultValue = "false")
     private boolean skip;
 
-    void configure(ProductBuilder pkgBuilder) throws MojoExecutionException {
+    @Override
+    public void configure(ProductBuilder pkgBuilder) throws MojoExecutionException {
         if (!skip) {
             Provider provider = getProvider();
             KeyStore ks = getKeyStore(provider);
