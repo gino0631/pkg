@@ -115,6 +115,8 @@ These optional parameters allow to control the installation experience:
   <license>
     ...
   </license>
+  <readme>...</readme>
+  <conclusion>...</conclusion>
 </distribution>
 ```
 
@@ -147,6 +149,8 @@ or a complete form, if multiple languages have to be supported:
   </resources>
 </license>
 ```
+
+Similarly, readme and conclusion texts can be specified.
 
 For more details, refer to the [Distribution Definition XML Schema Reference](https://developer.apple.com/library/content/documentation/DeveloperTools/Reference/DistributionDefinitionRef/Chapters/Introduction.html).
 
