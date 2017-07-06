@@ -61,7 +61,7 @@ The first step is to add the plugin to your project:
 </project>
 ```
 
-The most important configuration parameter is `root`, which specifies the payload to be installed. Its contents should be relative to the root directory on a target system.
+The most important configuration parameter is `root`, which specifies the directory containing the payload to be installed. Its contents should be relative to the root directory on a target system.
 
 The creation of the payload is out of the scope of this project, and should be performed using other means as appropriate. For example, if building a Java application installer, it might be convenient to start with a skeleton directory structure like this:
 ```sh
