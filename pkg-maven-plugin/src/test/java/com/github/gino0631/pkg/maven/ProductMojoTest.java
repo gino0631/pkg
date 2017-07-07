@@ -16,7 +16,7 @@ public class ProductMojoTest {
 
     @Test
     public void test() throws Exception {
-        Mojo mojo = rule.lookupConfiguredMojo(new File("target/test-classes/test-project"), "product");
+        Mojo mojo = rule.lookupConfiguredMojo(new File(getClass().getResource("/test-project").toURI()), "product");
         assertNotNull(mojo);
         mojo.execute();
     }
