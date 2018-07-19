@@ -66,7 +66,7 @@ public class MkBom {
                 n.gid = Integer.parseInt(elements[2]);
                 n.size = 0;
                 n.checksum = 0;
-                //n.linkNameLength = 0;              
+                //n.linkNameLength = 0;
                 if ((n.mode & 0xF000) == 0x4000) {
                     n.type = TNodeType.KDirectoryNode;
                     n.linkName = "";
@@ -241,6 +241,7 @@ public class MkBom {
             }
 
             if (num_paths > 1) {
+                root_paths.indices.add(new BomPathIndices());
                 root_paths.indices.get(current_path).index0 = (new BomPaths(Tools.getBIS(bom.getBlock(last_paths_id)))).forward = bom.addBlock(Tools.getBytes(paths), current_path_size);
                 root_paths.indices.get(current_path).index1 = last_file_info;
                 tree.child = bom.addBlock(Tools.getBytes(root_paths), path_size);
