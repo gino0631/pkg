@@ -235,7 +235,9 @@ public final class ProductBuilder {
 
         // Build XAR
         try (XarBuilder xarBuilder = XarBuilder.getInstance()) {
-            xarBuilder.setSigning(signingPrivateKey, signingCertificates, signingProvider, signingTsa);
+            if (signingPrivateKey != null && signingCertificates != null) {
+                xarBuilder.setSigning(signingPrivateKey, signingCertificates, signingProvider, signingTsa);
+            }
 
             Files.walkFileTree(flatDir, new SimpleFileVisitor<Path>() {
                 Deque<XarBuilder.Container> xarPath = new LinkedList<>();
