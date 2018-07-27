@@ -15,16 +15,16 @@ public class MkBomTest {
         byte[] ourBom;
         byte[] referenceBom;
 
-        ourBom = makeBom(getClass().getResourceAsStream("/empty.bom.txt"));
+        ourBom = makeBom(getClass().getResourceAsStream("/empty.bom.lsbom"));
         referenceBom = readBytes(getClass().getResourceAsStream("/empty.bom.bomutils"));
         writeInt(0x00000248, referenceBom, 0x2e1);  // mkbom from bomutils does not fix pointer address if length is 0 (mkbom.cpp:185)
         assertArrayEquals(referenceBom, ourBom);
 
-        ourBom = makeBom(getClass().getResourceAsStream("/siri.bom.txt"));
+        ourBom = makeBom(getClass().getResourceAsStream("/siri.bom.lsbom"));
         referenceBom = readBytes(getClass().getResourceAsStream("/siri.bom.bomutils"));
         assertArrayEquals(referenceBom, ourBom);
 
-        ourBom = makeBom(getClass().getResourceAsStream("/safari.bom.txt"));
+        ourBom = makeBom(getClass().getResourceAsStream("/safari.bom.lsbom"));
         referenceBom = readBytes(getClass().getResourceAsStream("/safari.bom.bomutils"));
         assertArrayEquals(referenceBom, ourBom);
     }
