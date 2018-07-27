@@ -3,7 +3,6 @@ package com.github.gino0631.pkg.jbomutils;
 import java.io.IOException;
 
 /**
- *
  * @author JPEXS
  */
 public class BomPathInfo2 implements WritableTo {
@@ -61,8 +60,13 @@ public class BomPathInfo2 implements WritableTo {
         bos.writeUI32(size);
         bos.write(unknown1);
         bos.writeUI32(checksum_devType);
-        byte[] data = linkName.getBytes("UTF-8");
-        bos.writeUI32(data.length);
-        bos.write(data);
+        if (type == TYPE.LINK) {
+            byte[] data = linkName.getBytes("UTF-8");
+            bos.writeUI32(data.length + 1);
+            bos.write(data);
+            bos.write(0);
+        } else {
+            bos.writeUI32(0);
+        }
     }
 }

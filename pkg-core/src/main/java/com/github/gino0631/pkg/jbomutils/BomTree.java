@@ -3,26 +3,29 @@ package com.github.gino0631.pkg.jbomutils;
 import java.io.IOException;
 
 /**
- *
  * @author JPEXS
  */
 public class BomTree implements WritableTo {
-
     public static final int size_of = 4 + 4 * Tools.sizeof_uint32_t + 1;
 
-    byte[] tree = "tree".getBytes();    // Always "tree" 
-    long version = 1;   // Always 1
-    long child; // Index for BOMPaths
-    long blockSize;   // Always 4096
-    long pathCount;   // Total number of paths in all leaves combined
+    final byte[] tree = "tree".getBytes();    // Always "tree"
+    final long version;     // Always 1
+    final long child;       // Index for BOMPaths
+    final long blockSize;   // Always 4096
+    final long pathCount;   // Total number of paths in all leaves combined
     /*byte*/
-    int unknown3;
+    final int unknown3;
 
-    public BomTree() {
+    public BomTree(long child, long blockSize, long pathCount) {
+        this.version = 1;
+        this.child = child;
+        this.blockSize = blockSize;
+        this.pathCount = pathCount;
+        this.unknown3 = 0;
     }
 
     public BomTree(BomInputStream bis) throws IOException {
-        bis.read(tree);
+        bis.readFully(tree);
         version = bis.readUI32();
         child = bis.readUI32();
         blockSize = bis.readUI32();

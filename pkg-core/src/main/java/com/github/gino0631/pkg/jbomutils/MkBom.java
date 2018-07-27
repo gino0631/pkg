@@ -1,16 +1,7 @@
 package com.github.gino0631.pkg.jbomutils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author JPEXS
@@ -31,23 +22,27 @@ public class MkBom {
     }
 
     private static class Pair<A, B> {
+        final A first;
+        final B second;
 
-        public A first;
-        public B second;
-
-        public Pair(A first, B second) {
+        Pair(A first, B second) {
             this.first = first;
             this.second = second;
         }
-
     }
 
     public static void write_bom(InputStream is, String outputPath) throws IOException {
-        Node root = new Node();
-        int num;
+        try (OutputStream os = new FileOutputStream(outputPath)) {
+            write_bom(is, os);
+        }
+    }
+
+    public static void write_bom(InputStream is, OutputStream os) throws IOException {
+        final Node root = new Node();
+        final int num;
         root.type = TNodeType.KRootNode;
         {
-            Map<String, Node> all_nodes = new HashMap<>();
+            Map<String, Node> all_nodes = new TreeMap<>();
             String line;
             while ((line = Tools.getline(is)) != null) {
                 Node n = new Node();
@@ -112,91 +107,48 @@ public class MkBom {
 
         BomStorage bom = new BomStorage();
         {
-            int bom_info_size = (Tools.sizeof_uint32_t * 3) + (((num != 0) ? 1 : 0) * BomInfoEntry.size_of);
-            BomInfo info = new BomInfo();
-            //malloc(bom_info_size);
-            //memset(info, 0, bom_info_size);
-            info.version = 1;
-            info.numberOfPaths = (num + 1);
-            if ((num != 0) && (info.entries.isEmpty())) {
+            BomInfo info = new BomInfo(1, num + 1);
+            if (num != 0) {
                 info.entries.add(new BomInfoEntry());
             }
-            if (num != 0) {
-                // info.entries.get(0).unknown2 = 57826303 /* ???? */
-                info.entries.get(0).unknown2 = 0; /* ???? */
-
-            }
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            BomOutputStream bos = new BomOutputStream(baos);
-            info.writeTo(bos);
-            bom.addVar("BomInfo", baos.toByteArray(), bom_info_size);
+            bom.addVar("BomInfo", info);
         }
 
         {
-            BomTree tree = new BomTree();
-            tree.version = 1;
-            tree.blockSize = 4096;
-            tree.pathCount = num;
-            tree.unknown3 = 0; /* ?? */
-
             int num_paths = (int) Math.ceil(num / 256.0);
-            int path_size = (Tools.sizeof_uint16_t * 2) + (Tools.sizeof_uint32_t * 2)
-                    + (num_paths * BomPathIndices.size_of);
-            BomPaths root_paths = new BomPaths();
-            //malloc(path_size);
-            root_paths.isLeaf = 0;
-            root_paths.count = num_paths;
-            root_paths.forward = 0;
-            root_paths.backward = 0;
-            root_paths.indices = new ArrayList<>();
+            BomPaths root_paths = new BomPaths(0, num_paths, 0, 0);
 
-            Stack<Pair<Long, Node>> stack = new Stack<>();
+            Deque<Pair<Long, Node>> stack = new LinkedList<>();
 
-            stack.push(new Pair<Long, Node>(0L, root));
+            stack.push(new Pair<>(0L, root));
             int j = 0;
             int k = 0;
-            int current_path = 0;
-            int current_path_size = 0;
             int last_file_info = 0;
             int last_paths_id = 0;
             BomPaths paths = null;
             while (stack.size() != 0) {
-                Pair<Long, Node> p = stack.get(0);
+                Pair<Long, Node> p = stack.removeFirst();
                 Node arg = p.second;
                 long parent = p.first;
-                stack.remove(0);
-                for (String it : arg.children.keySet()) {
-                    Node node = arg.children.get(it);
-                    String s = it;
+                for (Map.Entry<String, Node> e : arg.children.entrySet()) {
+                    final String s = e.getKey();
+                    final Node node = e.getValue();
                     if (k == 0) {
                         int new_paths_id = 0;
                         if (paths != null) {
-                            new_paths_id = bom.addBlock(Tools.getBytes(paths), current_path_size);
-                            root_paths.indices.add(new BomPathIndices());
-                            //root_paths.indices[current_path] = new BOMPathIndices();
-                            root_paths.indices.get(current_path).index0 = new_paths_id;
+                            new_paths_id = bom.addBlock(paths);
+                            root_paths.indices.add(new BomPathIndices(new_paths_id, last_file_info));
                             if (last_paths_id != 0) {
-                                BomPaths prev_paths = new BomPaths(new BomInputStream(new ByteArrayInputStream(bom.getBlock(last_paths_id))));
-                                prev_paths.forward = new_paths_id;
+                                BomPaths prev_paths = (BomPaths) bom.getBlock(last_paths_id);
+                                prev_paths.setForward(new_paths_id);
                             }
-                            root_paths.indices.get(current_path).index1 = last_file_info;
-                            paths = null;
-                            current_path++;
                         }
+
                         int next_num = 256 < (num - j) ? 256 : (num - j);
-                        current_path_size = (Tools.sizeof_uint16_t * 2) + (Tools.sizeof_uint32_t * 2)
-                                + (next_num * BomPathIndices.size_of);
-                        //paths = (BOMPaths *)
-                        //malloc(current_path_size);
-                        paths = new BomPaths();
-                        paths.isLeaf = 1;
-                        paths.count = next_num;
-                        paths.forward = 0;
-                        paths.backward = new_paths_id;
+                        paths = new BomPaths(1, next_num, 0, new_paths_id);
                         last_paths_id = new_paths_id;
                     }
 
-                    int bom_path_info2_size = BomPathInfo2.size_of + node.linkName.getBytes().length;
                     BomPathInfo2 info2 = new BomPathInfo2();
                     if (node.type == TNodeType.KDirectoryNode) {
                         info2.type = TYPE.DIR;
@@ -218,72 +170,45 @@ public class MkBom {
                     //info2.linkNameLength = node.linkNameLength;
                     info2.linkName = node.linkName;
 
-                    BomPathInfo1 info1 = new BomPathInfo1();
-                    info1.id = j + 1;
-                    info1.index = bom.addBlock(Tools.getBytes(info2), bom_path_info2_size);
-                    paths.indices.add(new BomPathIndices());
-                    paths.indices.get(k).index0 = bom.addBlock(Tools.getBytes(info1), BomPathInfo1.size_of);
-
-                    //free((void *) info2);
-                    int bom_file_size = Tools.sizeof_uint32_t + 1 + s.getBytes().length;
-                    BomFile f = new BomFile();
-                    //malloc(bom_file_size);
-                    f.parent = parent;
-                    f.name = s;
-                    paths.indices.get(k).index1 = last_file_info = (bom.addBlock(Tools.getBytes(f), bom_file_size));
-                    //free((void *) f );
-
-                    //stack.push_back(std::pair < uint32_t, const Node * > (j + 1, &node ) );
-                    stack.add(0, new Pair<>((Long) (long) (j + 1), node));
                     j++;
+                    BomPathInfo1 info1 = new BomPathInfo1(j, bom.addBlock(info2));
+
+                    paths.indices.add(new BomPathIndices(
+                            bom.addBlock(info1),
+                            last_file_info = bom.addBlock(new BomFile(parent, s))
+                    ));
+
+                    stack.addLast(new Pair<>((long) j, node));
                     k = (k + 1) % 256;
                 }
             }
 
+            int child;
+
             if (num_paths > 1) {
-                root_paths.indices.add(new BomPathIndices());
-                root_paths.indices.get(current_path).index0 = (new BomPaths(Tools.getBIS(bom.getBlock(last_paths_id)))).forward = bom.addBlock(Tools.getBytes(paths), current_path_size);
-                root_paths.indices.get(current_path).index1 = last_file_info;
-                tree.child = bom.addBlock(Tools.getBytes(root_paths), path_size);
+                child = bom.addBlock(paths);
+                ((BomPaths) bom.getBlock(last_paths_id)).setForward(child);
+
+                root_paths.indices.add(new BomPathIndices(child, last_file_info));
+                child = bom.addBlock(root_paths);
+
             } else {
-                tree.child = bom.addBlock(Tools.getBytes(paths), current_path_size);
+                child = bom.addBlock(paths);
             }
 
-            bom.addVar("Paths", Tools.getBytes(tree), BomTree.size_of);
+            bom.addVar("Paths", new BomTree(child, 4096, num));
         }
 
         {
-            int path_size = (Tools.sizeof_uint16_t * 2) + (Tools.sizeof_uint32_t * 2);
-            BomPaths empty_path = new BomPaths(); //(BOMPaths*)malloc( path_size );
-            empty_path.isLeaf = 1;
-            empty_path.count = 0;
-            empty_path.forward = 0;
-            empty_path.backward = 0;
+            BomPaths empty_path = new BomPaths(1, 0, 0, 0);
+            bom.addVar("HLIndex", new BomTree(bom.addBlock(empty_path), 4096, 0));
 
-            BomTree tree = new BomTree();
-            tree.tree = "tree".getBytes();
-            tree.version = 1;
-            tree.blockSize = 4096;
-            tree.pathCount = 0;
-            tree.unknown3 = 0;
+            BomVIndex vindex = new BomVIndex(bom.addBlock(new BomTree(bom.addBlock(empty_path), 128, 0)));
+            bom.addVar("VIndex", vindex);
 
-            tree.child = (bom.addBlock(Tools.getBytes(empty_path), path_size));
-            bom.addVar("HLIndex", Tools.getBytes(tree), BomTree.size_of);
-
-            BomVIndex vindex = new BomVIndex();
-            vindex.unknown0 = (1);
-            tree.child = (bom.addBlock(Tools.getBytes(empty_path), path_size));
-            tree.blockSize = (128);
-            vindex.indexToVTree = (bom.addBlock(Tools.getBytes(tree), BomTree.size_of));
-            vindex.unknown2 = (0);
-            vindex.unknown3 = 0;
-            bom.addVar("VIndex", Tools.getBytes(vindex), BomVIndex.size_of);
-
-            tree.blockSize = (4096);
-            tree.child = (bom.addBlock(Tools.getBytes(empty_path), path_size));
-            bom.addVar("Size64", Tools.getBytes(tree), BomTree.size_of);
+            bom.addVar("Size64", new BomTree(bom.addBlock(empty_path), 4096, 0));
         }
-        bom.write(new FileOutputStream(outputPath));
+        bom.write(os);
     }
 
     public static void usage() {
