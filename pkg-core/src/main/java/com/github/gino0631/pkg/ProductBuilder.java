@@ -99,8 +99,8 @@ public final class ProductBuilder {
     }
 
     public void setSigning(PrivateKey signingPrivateKey, List<X509Certificate> signingCertificates, Provider signingProvider, URL signingTsa) {
-        this.signingPrivateKey = signingPrivateKey;
-        this.signingCertificates = signingCertificates;
+        this.signingPrivateKey = Objects.requireNonNull(signingPrivateKey);
+        this.signingCertificates = Objects.requireNonNull(signingCertificates);
         this.signingProvider = signingProvider;
         this.signingTsa = signingTsa;
     }
@@ -235,7 +235,7 @@ public final class ProductBuilder {
 
         // Build XAR
         try (XarBuilder xarBuilder = XarBuilder.getInstance()) {
-            if (signingPrivateKey != null && signingCertificates != null) {
+            if ((signingPrivateKey != null) && (signingCertificates != null)) {
                 xarBuilder.setSigning(signingPrivateKey, signingCertificates, signingProvider, signingTsa);
             }
 

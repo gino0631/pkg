@@ -3,20 +3,22 @@ package com.github.gino0631.pkg.jbomutils;
 import java.io.IOException;
 
 /**
- *
  * @author JPEXS
  */
 public class BomVIndex implements WritableTo {
-
     public static final int size_of = Tools.sizeof_uint32_t * 3 + 1;
 
-    long unknown0;      // Always 1
-    long indexToVTree;
-    long unknown2;      // Always 0
+    final long unknown0;      // Always 1
+    final long indexToVTree;
+    final long unknown2;      // Always 0
     /*byte*/
-    int unknown3;       // Always 0 
+    final int unknown3;       // Always 0
 
-    public BomVIndex() {
+    public BomVIndex(long indexToVTree) {
+        this.unknown0 = 1;
+        this.indexToVTree = indexToVTree;
+        this.unknown2 = 0;
+        this.unknown3 = 0;
     }
 
     public BomVIndex(BomInputStream bis) throws IOException {

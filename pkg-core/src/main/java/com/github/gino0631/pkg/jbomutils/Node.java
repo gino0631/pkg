@@ -1,15 +1,14 @@
 package com.github.gino0631.pkg.jbomutils;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
- *
  * @author JPEXS
  */
 public class Node {
 
-    Map<String, Node> children = new HashMap<>();
+    Map<String, Node> children = new TreeMap<>();
     TNodeType type = TNodeType.KNullNode;
     long mode = 0;
     long uid = 0;

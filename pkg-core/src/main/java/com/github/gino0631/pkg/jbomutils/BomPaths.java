@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author JPEXS
  */
 public class BomPaths implements WritableTo {
-
-    long isLeaf; //uint16_t            
-    long count; //uint16_t 
+    final int isLeaf; //uint16_t
+    final int count; //uint16_t
     long forward;
-    long backward;
-    List<BomPathIndices> indices = new ArrayList<>();
+    final long backward;
+    final List<BomPathIndices> indices;
 
-    public BomPaths() {
+    public BomPaths(int isLeaf, int count, long forward, long backward) {
+        this.isLeaf = isLeaf;
+        this.count = count;
+        this.forward = forward;
+        this.backward = backward;
+        indices = new ArrayList<>();
     }
 
     public BomPaths(BomInputStream bis) throws IOException {
@@ -24,10 +27,14 @@ public class BomPaths implements WritableTo {
         count = bis.readUI16();
         forward = bis.readUI32();
         backward = bis.readUI32();
-        indices = new ArrayList<>();
+        indices = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
             indices.add(new BomPathIndices(bis));
         }
+    }
+
+    public void setForward(long forward) {
+        this.forward = forward;
     }
 
     @Override

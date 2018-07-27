@@ -3,17 +3,17 @@ package com.github.gino0631.pkg.jbomutils;
 import java.io.IOException;
 
 /**
- *
  * @author JPEXS
  */
 public class BomPointer implements WritableTo {
-
     public static final int sizeof = 8;
 
-    long address;
-    long length;
+    final long address;
+    final long length;
 
-    public BomPointer() {
+    public BomPointer(long address, long length) {
+        this.address = address;
+        this.length = length;
     }
 
     public BomPointer(BomInputStream bis) throws IOException {
@@ -35,5 +35,4 @@ public class BomPointer implements WritableTo {
         bos.writeUI32(address);
         bos.writeUI32(length);
     }
-
 }

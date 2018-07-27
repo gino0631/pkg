@@ -1,0 +1,81 @@
+.	40755	0/0
+./Contents	40755	0/0
+./Contents/Info.plist	100644	0/0	1664	3652292152
+./Contents/MacOS	40755	0/0
+./Contents/MacOS/Siri	100755	0/0	18112	2999623364
+./Contents/PkgInfo	100644	0/0	8	2867747801
+./Contents/Resources	40755	0/0
+./Contents/Resources/Dutch.lproj	40755	0/0
+./Contents/Resources/Dutch.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/English.lproj	40755	0/0
+./Contents/Resources/English.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/French.lproj	40755	0/0
+./Contents/Resources/French.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/German.lproj	40755	0/0
+./Contents/Resources/German.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/Italian.lproj	40755	0/0
+./Contents/Resources/Italian.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/Japanese.lproj	40755	0/0
+./Contents/Resources/Japanese.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/Siri.icns	100644	0/0	1723942	1634303527
+./Contents/Resources/Spanish.lproj	40755	0/0
+./Contents/Resources/Spanish.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/ar.lproj	40755	0/0
+./Contents/Resources/ar.lproj/InfoPlist.strings	100644	0/0	79	1208554203
+./Contents/Resources/ca.lproj	40755	0/0
+./Contents/Resources/ca.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/cs.lproj	40755	0/0
+./Contents/Resources/cs.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/da.lproj	40755	0/0
+./Contents/Resources/da.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/el.lproj	40755	0/0
+./Contents/Resources/el.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/es_419.lproj	40755	0/0
+./Contents/Resources/es_419.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/fi.lproj	40755	0/0
+./Contents/Resources/fi.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/he.lproj	40755	0/0
+./Contents/Resources/he.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/hi.lproj	40755	0/0
+./Contents/Resources/hi.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/hr.lproj	40755	0/0
+./Contents/Resources/hr.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/hu.lproj	40755	0/0
+./Contents/Resources/hu.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/id.lproj	40755	0/0
+./Contents/Resources/id.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/ko.lproj	40755	0/0
+./Contents/Resources/ko.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/ms.lproj	40755	0/0
+./Contents/Resources/ms.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/no.lproj	40755	0/0
+./Contents/Resources/no.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/pl.lproj	40755	0/0
+./Contents/Resources/pl.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/pt.lproj	40755	0/0
+./Contents/Resources/pt.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/pt_PT.lproj	40755	0/0
+./Contents/Resources/pt_PT.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/ro.lproj	40755	0/0
+./Contents/Resources/ro.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/ru.lproj	40755	0/0
+./Contents/Resources/ru.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/sk.lproj	40755	0/0
+./Contents/Resources/sk.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/sv.lproj	40755	0/0
+./Contents/Resources/sv.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/th.lproj	40755	0/0
+./Contents/Resources/th.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/tr.lproj	40755	0/0
+./Contents/Resources/tr.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/uk.lproj	40755	0/0
+./Contents/Resources/uk.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/vi.lproj	40755	0/0
+./Contents/Resources/vi.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/zh_CN.lproj	40755	0/0
+./Contents/Resources/zh_CN.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/Resources/zh_TW.lproj	40755	0/0
+./Contents/Resources/zh_TW.lproj/InfoPlist.strings	100644	0/0	73	3495419661
+./Contents/_CodeSignature	40755	0/0
+./Contents/_CodeSignature/CodeResources	100644	0/0	15587	1923459759
+./Contents/version.plist	100644	0/0	507	2375676889
