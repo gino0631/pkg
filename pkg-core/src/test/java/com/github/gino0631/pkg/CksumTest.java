@@ -1,8 +1,8 @@
 package com.github.gino0631.pkg;
 
-import org.apache.commons.compress.utils.Charsets;
 import org.junit.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -11,7 +11,7 @@ public class CksumTest {
     @Test
     public void test() throws Exception {
         Cksum cksum = new Cksum();
-        cksum.update("12345".getBytes(Charsets.UTF_8), 0, 5);
+        cksum.update("12345".getBytes(StandardCharsets.UTF_8), 0, 5);
         assertEquals(3288622155L, cksum.getValue());
 
         cksum.reset();
