@@ -1,5 +1,5 @@
 # PKG
-[![Build Status](https://travis-ci.org/gino0631/pkg.svg?branch=master)](https://travis-ci.org/gino0631/pkg)
+[![Build Status](https://travis-ci.com/gino0631/pkg.svg?branch=master)](https://travis-ci.com/gino0631/pkg)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.gino0631/pkg-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.gino0631/pkg-maven-plugin)
 
 A pure Java implementation of tools for building macOS installer packages.
