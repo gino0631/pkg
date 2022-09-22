@@ -1,6 +1,6 @@
 package com.github.gino0631.pkg.jaxb.distribution;
 
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Options {

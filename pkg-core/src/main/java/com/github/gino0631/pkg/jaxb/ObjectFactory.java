@@ -3,10 +3,10 @@ package com.github.gino0631.pkg.jaxb;
 import com.github.gino0631.pkg.jaxb.distribution.InstallerScript;
 import com.github.gino0631.pkg.jaxb.packageinfo.PkgInfo;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.annotation.XmlEnumValue;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.annotation.XmlEnumValue;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 

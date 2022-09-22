@@ -2,7 +2,7 @@ package com.github.gino0631.pkg.jaxb.distribution;
 
 import com.github.gino0631.pkg.jaxb.ObjectFactory;
 
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Background {

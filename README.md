@@ -1,12 +1,12 @@
 # PKG
-[![Build Status](https://travis-ci.com/gino0631/pkg.svg?branch=master)](https://travis-ci.com/gino0631/pkg)
+[![Build Status](https://api.travis-ci.com/gino0631/pkg.svg?branch=master)](https://app.travis-ci.com/gino0631/pkg)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.gino0631/pkg-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.gino0631/pkg-maven-plugin)
 
 A pure Java implementation of tools for building macOS installer packages.
 
 # Requirements
 * Maven 3
-* Java 8
+* Java 8 or higher
 
 # Usage
 The tools consist of a Java library and plugins for build systems (currently, only Maven is supported).
@@ -180,7 +180,7 @@ Finally, to prevent Gatekeeper from showing warnings, the package must be signed
 ```
 
 ## Standalone library
-Add a dependency on `com.github.gino0631:pkg-core` to your project, and use `ProductBuilder` class to build product packages.
+Add a dependency on `com.github.gino0631:pkg-core` to your project, and use `ProductBuilder` class to build product packages. If your target environment does not provide Jakarta XML Binding 3.0 implementation, be sure to add an implementation of your choice as a dependency.
 
 # Credits
 The project makes use of [jbomutils](https://github.com/jindrapetrik/jbomutils) by Jindra Petřík, and is inspired by [this tutorial](http://bomutils.dyndns.org/tutorial.html) by Fabian Renn.
